@@ -4,7 +4,7 @@ const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
 const { logger } = require('../../common');
 
-function execute(valid_audio) {
+module.exports = function (valid_audio) {
 
     return new Promise(resolve => {
         async.map(valid_audio, function (item, valid_audio_callback) {
@@ -37,7 +37,7 @@ function execute(valid_audio) {
                     ])
                     .save(save_path)
                     .on('error', (err) => {
-                        console.log(err);
+                        logger.error(err);
                     })
                     .on('end', () => {
                         source_Info_callback(null, save_path);
@@ -73,5 +73,3 @@ function execute(valid_audio) {
 
     });
 }
-
-module.exports = execute;

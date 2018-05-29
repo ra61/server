@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function inspect(audio_list) {
+module.exports = function (audio_list) {
     // 数据总量
     let totalSize = 0;
 
@@ -39,5 +39,3 @@ function inspect(audio_list) {
 
     return {totalSize: totalSize, exist_audio: exist_audio, not_exist_audio: not_exist_audio}
 }
-
-module.exports = inspect;

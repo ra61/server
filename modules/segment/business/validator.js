@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { getConnection, queryResult, logger} = require('../../common');
+
 const pool = require('./pool');
 
 const validator = async (req, res, next) => {

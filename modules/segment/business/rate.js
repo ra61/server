@@ -1,6 +1,6 @@
 
 
-const  segmentAudioModel = require('./model');
+const  segmentAudioModel = require('../db/model');
 
 module.exports = function(req, res) {
 
