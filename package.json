@@ -1,0 +1,25 @@
+{
+  "name": "audio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "classify.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.0",
+    "co": "^4.6.0",
+    "compose-middleware": "^5.0.0",
+    "debug": "^3.1.0",
+    "express": "^4.16.3",
+    "fluent-ffmpeg": "^2.1.2",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.10",
+    "log4js": "^2.7.0",
+    "mongoose": "^5.1.1",
+    "mysql": "^2.15.0",
+    "nodemon": "^1.17.4"
+  }
+}
