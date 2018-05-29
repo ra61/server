@@ -1,7 +1,7 @@
 
 const segmentAudioModel = require('./model');
  
-module.exports = function (batch_id, update_data) {
+module.exports = async function (batch_id, update_data) {
     segmentAudioModel.findOneAndUpdate(
         // 根据ID查询
         {batch_id:batch_id},
@@ -12,7 +12,7 @@ module.exports = function (batch_id, update_data) {
         // 回调函数
         function(err, data){
             if (err) {
-                logger.error(err);
+                next(err);
             }
         });
 }

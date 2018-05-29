@@ -17,7 +17,7 @@ module.exports = async function (batch_id) {
     // 音频分类
     let audio_list_classified = classify(audio_list);
     // 保存到数据库
-    update(batch_id, audio_list_classified);
+    await update(batch_id, audio_list_classified);
     // 有效音频
     let valid_audio = audio_list_classified.valid_audio;
 

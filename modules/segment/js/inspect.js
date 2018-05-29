@@ -7,8 +7,11 @@ module.exports = function (audio_list) {
     // 存在的切音文件
     let exist_audio = [];
 
+    // 不存在的路径
+    let not_exist_path = [];
+
     // 不存在的切音文件
-    let not_exist_audio = [];
+    let not_audio = [];
 
     // 遍历所有路径
     for (let i = 0; i < audio_list.length; i++) {
@@ -18,24 +21,30 @@ module.exports = function (audio_list) {
 
         if (fs.existsSync(audio_path)) {
 
-            // 收集存在的文件路径
-            exist_audio.push(audio_path);
-
             let stat = fs.statSync(audio_path);
 
             if (stat && stat.isFile()) {
 
+                // 收集存在的文件路径
+                exist_audio.push(audio_path);
+
                 // 计算数据总量
                 totalSize += stat.size;
+
+            } else {
+
+                // 不是音频
+                not_audio.push(audio_path);
+
             }
 
         } else {
 
-            // 反馈不存在的文件
-            not_exist_audio.push(audio_path);
+            // 路径不存在
+            not_exist_path.push(audio_path);
         }
 
     }
 
-    return {totalSize: totalSize, exist_audio: exist_audio, not_exist_audio: not_exist_audio}
+    return {totalSize: totalSize, exist_audio: exist_audio, not_exist_path: not_exist_path, not_audio: not_audio}
 }

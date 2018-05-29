@@ -2,8 +2,10 @@
 
 const segment = require('./segment');
 const inspect = require('./inspect');
+const update = require('../db/update');
 
 module.exports = async function (valid_audio) {
+    
     // 音频切割
     let export_audio_list = await segment(valid_audio);
     // 音频校验

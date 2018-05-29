@@ -46,7 +46,7 @@ app.get('/classify/rate/:batch_id', classify.rate);
 
 // 错误处理中间件
 app.use(function(err, req, res, next) {
-    logger.error("Something went wrong:", err);
+    logger.error(err);
 });
 
 module.exports = app;

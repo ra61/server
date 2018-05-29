@@ -1,5 +1,4 @@
-const { logger } = require('../../common');
-const  pool = require('./pool');
+
 const  getValidAudio = require('./getValidAudio');
 const  getAudioInfo = require('./getAudioInfo');
 const  audioExporting = require('./audioExporting');
@@ -13,15 +12,15 @@ module.exports = async function(req, res) {
     let valid_audio = await getValidAudio(batch_id);
 
     if(valid_audio.length === 0){
-        logger.info('不存在有效音频需要切割');
-        return;
+        let err = new Error('不存在有效音频需要切割');
+        next(err);
     };
 
     // 获取导出音频的信息
     let audio_info = await getAudioInfo(valid_audio);
 
     // 保存切音文件路径
-    update(batch_id, audio_info);
+    await update(batch_id, audio_info);
 
     // 导出总量
     let totalSize = audio_info.totalSize;
@@ -29,12 +28,18 @@ module.exports = async function(req, res) {
     let exist_audio = audio_info.exist_audio;
 
     if(exist_audio.length === 0 || totalSize === 0){
-        logger.info('不存在需要导出的音频');
-        return;
+        let err = new Error('不存在需要导出的音频');
+        next(err);
     }
-
+    
+    // 导出路径
+    let export_path = 'E:/corpus/segment/';
     // 导出音频
-    audioExporting(exist_audio, totalSize, function (exported_info) {
+    audioExporting(exist_audio, totalSize, export_path, function (err, exported_info) {
+
+        if(err){
+            next(err);
+        }
 
         // 更新导出进度到数据库
         update(batch_id, exported_info);

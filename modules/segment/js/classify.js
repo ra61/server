@@ -28,8 +28,8 @@ function classify(audio_list) {
             other_audio.push(audio.path);
         }
     }
-
-    return {valid_audio: valid_audio,invalid_audio: invalid_audio,other_audio: other_audio, not_exist_valid_audio: not_exist_valid_audio}
+    
+    return {valid_audio: valid_audio,invalid_audio: invalid_audio, other_audio: other_audio, not_exist_valid_audio: not_exist_valid_audio}
 }
 
 module.exports = classify;
