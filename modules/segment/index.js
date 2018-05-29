@@ -1,7 +1,7 @@
 
 
 module.exports = {
-    validator : require('./business/validator'),
-    main : require('./business/main'),
-    rate : require('./business/rate'),
+    validator : require('./js/validator'),
+    main : require('./js/main'),
+    rate : require('./js/rate'),
 };
