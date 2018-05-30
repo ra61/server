@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 
-const { log4js, logger } = require('./modules/common');
+const { log4js, logger } = require('./log4js');
 
 // 响应请求日志
 app.use(log4js.connectLogger(log4js.getLogger("normal"), { level: 'auto' }));

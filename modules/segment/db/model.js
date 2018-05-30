@@ -1,5 +1,5 @@
 // 加载mongoose
-const { mongoose } = require('../../common');
+const mongoose = require('./mongoose');
 
 // 定义数据模式
 let segmentAudioSchema = new mongoose.Schema({

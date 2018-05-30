@@ -1,7 +1,7 @@
 
 const fs = require('fs');
 
-function exporting(exist_audio, totalSize, callback) {
+function audioExporting(exist_audio, totalSize, callback) {
 
     // 当前导出数量
     let counter = 0;
@@ -36,15 +36,29 @@ function exporting(exist_audio, totalSize, callback) {
                 }
             });
 
-            readStream.on('end', function () {
+            readStream.on('end', function (err) {
+
+                if(err){
+                    callback(err);
+                }
+
                 writeStream.end();
             });
 
-            writeStream.on('drain', function () {
+            writeStream.on('drain', function (err) {
+
+                if(err){
+                    callback(err);
+                }
+
                 readStream.resume();
             });
 
-            writeStream.on('close', function(){
+            writeStream.on('close', function(err){
+
+                if(err){
+                    callback(err);
+                }
 
                 counter++;
                 // rate = counter + '/' + total;
@@ -52,11 +66,11 @@ function exporting(exist_audio, totalSize, callback) {
                 // 计算导出进度
                 rate = (exportedSize / totalSize * 100).toFixed(2) + '%';
 
-                callback({exported_rate: rate,exported_counter: counter, total_audio: total});
+                callback(null, {exported_rate: rate,exported_counter: counter, total_audio: total});
             });
 
         }
     }
 }
 
-module.exports = exporting;
+module.exports = audioExporting;

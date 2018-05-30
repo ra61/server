@@ -1,7 +1,6 @@
 const _ = require('lodash');
-const { getConnection, queryResult, logger} = require('../../common');
-
 const pool = require('./pool');
+const { getConnection, queryResult } = require('../../common');
 
 const validator = async (req, res, next) => {
 
@@ -18,15 +17,15 @@ const validator = async (req, res, next) => {
             if (_.has(result[0], 'batch_id') && result[0]['batch_id'] === batch_id) {
                 await next();
             } else {
-                logger.error('查询批次ID不存在');
+                next('查询批次ID不存在');
             }
 
         }catch (e) {
-            logger.error(e.stack);
+            next(e.stack);
         }
 
     } else {
-        logger.error('批次ID必须为正整数');
+        next('批次ID必须为正整数');
     }
 };
 

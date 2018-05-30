@@ -1,13 +1,14 @@
 
-const { getConnection, queryResult, logger} = require('../../common');
+const { getConnection, queryResult } = require('../../common');
+const { logger } = require('./log4js');
 const pool = require('./pool');
 const queryAudio = require('./queryAudio');
 const getExportAudio = require('./getExportAudio');
-const exporting = require('./exporting');
+const audioExporting = require('./audioExporting');
 const getAudioInfo = require('./getAudioInfo');
 const saveToSegment = require('./saveToSegment');
 
-module.exports = async function  (req, res) {
+module.exports = async function  (req, res, next) {
     // 批量任务ID
     let batch_id = req.params.batch_id;
     // 根据ID查询音频信息
@@ -21,12 +22,14 @@ module.exports = async function  (req, res) {
     let export_exist_audio = export_audio_info.exist_audio;
 
     if(export_exist_audio.length === 0 || export_totalSize === 0){
-        logger.info('不存在需要导出的音频');
-        return;
+        next('不存在需要导出的音频');
     }
 
     // 导出音频
-    exporting(export_exist_audio, export_totalSize, function (exported_info) {
+    audioExporting(export_exist_audio, export_totalSize, function (err, exported_info) {
+        if(err){
+            next(err);
+        }
         // 保存进度信息到数据库
         // console.log(exported_info);
     });

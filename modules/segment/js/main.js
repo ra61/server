@@ -4,7 +4,7 @@ const  getAudioInfo = require('./getAudioInfo');
 const  audioExporting = require('./audioExporting');
 const  update = require('../db/update');
 
-module.exports = async function(req, res) {
+module.exports = async function(req, res, next) {
 
     // 批量任务ID
     let batch_id = req.params.batch_id;

@@ -1,4 +1,5 @@
-const { getConnection, queryResult, logger} = require('../../common');
+const { getConnection, queryResult } = require('../../common');
+const { logger } = require('./log4js');
 const pool = require('./pool');
 const combination = require('./combination');
 

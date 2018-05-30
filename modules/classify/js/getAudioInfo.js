@@ -2,7 +2,7 @@
 const async = require('async');
 const ffmpeg = require('fluent-ffmpeg');
 const convertMp3 = require('./convertMp3');
-const { logger } = require('../../common');
+const { logger } = require('./log4js');
 
 module.exports = async function (audio_path_list) {
 

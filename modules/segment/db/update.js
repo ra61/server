@@ -1,5 +1,6 @@
 
 const segmentAudioModel = require('./model');
+const { logger } = require('../js/log4js');
  
 module.exports = async function (batch_id, update_data) {
     segmentAudioModel.findOneAndUpdate(
@@ -12,7 +13,7 @@ module.exports = async function (batch_id, update_data) {
         // 回调函数
         function(err, data){
             if (err) {
-                next(err);
+                logger.error(err);
             }
         });
 }

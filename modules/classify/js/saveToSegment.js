@@ -1,7 +1,8 @@
 
 const async = require('async');
-const { getConnection, queryResult, logger} = require('../../common');
-const segmentPool = require('../../classify/js/pool');
+const { getConnection, queryResult } = require('../../common');
+const { logger } = require('./log4js');
+const segmentPool = require('../../segment/js/pool');
 
 function save(connection, batch_id, audio_list) {
     return new Promise(resolve => {
@@ -10,7 +11,7 @@ function save(connection, batch_id, audio_list) {
 
             connection.beginTransaction(function(err) {
                 if (err) { throw err; }
-                connection.query('insert into project_source set batch_id=?, path=?,duration=?,size=?, total_duration=1000, total_size=1000',
+                connection.query('insert into project_source set batch_id=?, path=?,duration=?,size=?',
                     [batch_id, save_path, audio.duration, audio.size],
                     (error) => {
                         if (error) {

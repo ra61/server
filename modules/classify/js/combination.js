@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { logger } = require('../../common');
+const { logger } = require('./log4js');
 
 
 function combinnation(arr) {

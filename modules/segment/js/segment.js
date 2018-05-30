@@ -2,7 +2,7 @@ const async = require('async');
 const path = require('path');
 const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
-const { logger } = require('../../common');
+const { logger } = require('./log4js');
 
 module.exports = function (valid_audio) {
 

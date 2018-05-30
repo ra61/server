@@ -1,6 +1,6 @@
 
 const app = require('./app.js');
-const { logger } = require('./modules/common');
+const { logger } = require('./log4js');
 
 // 设定监听端口
 app.set('port', process.env.PORT || 3000);

@@ -1,5 +1,5 @@
 const ffmpeg = require('fluent-ffmpeg');
-const { logger } = require('../../common');
+const { logger } = require('./log4js');
 module.exports = function (source_path, save_path) {
     return new Promise((resolve, reject) => {
         ffmpeg(source_path)
@@ -11,11 +11,11 @@ module.exports = function (source_path, save_path) {
             .save(save_path)
             .on("error", (err) => {
                 reject(false);
-                // logger.info(err);
+                logger.info(err);
             })
             .on("end", () => {
                 resolve(true);
-                // logger.info(save_path + ':' + '转换MP3成功');
+                logger.info(save_path + ':' + '转换MP3成功');
             })
     });
 };
