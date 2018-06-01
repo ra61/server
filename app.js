@@ -10,7 +10,7 @@ app.use(log4js.connectLogger(log4js.getLogger("normal"), { level: 'auto' }));
 // 静态资源  '/static'为虚拟前缀
 app.use('/static', express.static('public'));
 
-// 默认首页
+// 默认首页 非跨域访问
 app.get('/', function(req, res, next){
     // const err = new Error('i am an error');
     // next(err);

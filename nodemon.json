@@ -1,0 +1,22 @@
+{
+    "ignore": [
+        ".git",
+        ".idea",
+        "node_modules",
+        "logs"
+    ],
+    "execMap": {
+        "js": "node --harmony"
+    },
+    "watch": [
+        "modules",
+        "public",
+        "app.js",
+        "cluster.js",
+        "server.js"
+],
+"env": {
+    "NODE_ENV": "development"
+},
+    "ext": "js json"
+}
