@@ -10,22 +10,26 @@ app.use(log4js.connectLogger(log4js.getLogger("normal"), { level: 'auto' }));
 // 静态资源  '/static'为虚拟前缀
 app.use('/static', express.static('public'));
 
-// 跨域访问
-app.use(function (req,res,next) {
-    if(req.headers.origin === 'http://segment.net:8000' || req.headers.origin === 'http://classify.net' ){
-        res.header("Access-Control-Allow-Origin", req.headers.origin);
-        res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-        res.header("Access-Control-Allow-Headers", "Content-Type");
-        res.header("Access-Control-Allow-Credentials","true");
-        next();
-    }
-});
-
 // 默认首页
 app.get('/', function(req, res, next){
     // const err = new Error('i am an error');
     // next(err);
     res.sendFile(__dirname + '/public/index.html');
+});
+
+// 跨域访问
+app.use(function (req,res,next) {
+    
+    if(req.headers.origin === 'http://segment.net:8000' || req.headers.origin === 'http://classify.net'){
+        res.header("Access-Control-Allow-Origin", req.headers.origin);
+        res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+        res.header("Access-Control-Allow-Headers", "Content-Type");
+        res.header("Access-Control-Allow-Credentials","true");
+        next();
+    } else {
+        logger.info('不允许的跨域访问');
+    }
+    
 });
 
 // 切音

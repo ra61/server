@@ -17,7 +17,8 @@ const validator = async (req, res, next) => {
             if (_.has(result[0], 'batch_id') && result[0]['batch_id'] === batch_id) {
                 await next();
             } else {
-                next('查询批次ID不存在');
+                let err = new Error('查询批次ID不存在');
+                next(err);
             }
 
         }catch (e) {
@@ -25,7 +26,8 @@ const validator = async (req, res, next) => {
         }
 
     } else {
-        next('批次ID必须为正整数');
+        let err = new Error('批次ID必须为正整数');
+        next(err);
     }
 };
 
