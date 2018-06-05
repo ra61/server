@@ -1,7 +1,7 @@
 
 const fs = require('fs');
 
-function audioExporting(exist_audio, totalSize, callback) {
+function audioExporting(exist_audio, totalSize, export_path, callback) {
 
     // 当前导出数量
     let counter = 0;
@@ -27,7 +27,7 @@ function audioExporting(exist_audio, totalSize, callback) {
             let filename = filePath.substring(filePath.lastIndexOf('/'));
 
             let readStream = fs.createReadStream(filePath);
-            let writeStream = fs.createWriteStream('E:/corpus/classify/' + filename);
+            let writeStream = fs.createWriteStream(export_path + filename);
 
             readStream.on('data', function (chunk) {
                 exportedSize += chunk.length;

@@ -2,10 +2,10 @@
 const express = require('express');
 const app = express();
 
-const { log4js, logger } = require('./log4js');
+const { log4js, logger }= require('./log4js');
 
 // 响应请求日志
-app.use(log4js.connectLogger(log4js.getLogger("normal"), { level: 'auto' }));
+app.use(log4js.connectLogger(log4js.getLogger(), { level: 'auto' }));
 
 // 静态资源  '/static'为虚拟前缀
 app.use('/static', express.static('public'));

@@ -25,8 +25,10 @@ module.exports = async function  (req, res, next) {
         next('不存在需要导出的音频');
     }
 
+    let export_path = 'E:/corpus/classify/';
+
     // 导出音频
-    audioExporting(export_exist_audio, export_totalSize, function (err, exported_info) {
+    audioExporting(export_exist_audio, export_totalSize, export_path, function (err, exported_info) {
         if(err){
             next(err);
         }

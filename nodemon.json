@@ -11,6 +11,7 @@
     "watch": [
         "modules",
         "public",
+        "config",
         "app.js",
         "cluster.js",
         "server.js"

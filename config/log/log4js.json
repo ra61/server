@@ -1,0 +1,72 @@
+{
+    "appenders": {
+        "console": {
+            "type": "stdout"
+        },
+        "normal": {
+            "type": "file", 
+            "filename": "./logs/app/normal/file.log", 
+            "maxLogSize": 102400, 
+            "backups": 20, 
+            "encoding": "utf-8"
+        }, 
+        "dateFile": {
+            "type": "dateFile", 
+            "filename": "./logs/app/dateFile/", 
+            "pattern": "yyyyMMddhh.txt", 
+            "alwaysIncludePattern": true
+        },
+        "classify_normal": {
+            "type": "file", 
+            "filename": "./logs/classify/normal/file.log", 
+            "maxLogSize": 102400, 
+            "backups": 20, 
+            "encoding": "utf-8"
+        }, 
+        "classify_dateFile": {
+            "type": "dateFile", 
+            "filename": "./logs/classify/dateFile/", 
+            "pattern": "yyyyMMddhh.txt", 
+            "alwaysIncludePattern": true
+        },
+        "segment_normal": {
+            "type": "file", 
+            "filename": "./logs/segment/normal/file.log", 
+            "maxLogSize": 102400, 
+            "backups": 20, 
+            "encoding": "utf-8"
+        }, 
+        "segment_dateFile": {
+            "type": "dateFile", 
+            "filename": "./logs/segment/dateFile/", 
+            "pattern": "yyyyMMddhh.txt", 
+            "alwaysIncludePattern": true
+        }
+    }, 
+    "categories": {
+        "default": {
+            "appenders": [
+                "console",
+                "normal", 
+                "dateFile"
+            ], 
+            "level": "trace"
+        },
+        "segment": {
+            "appenders": [
+                "console",
+                "segment_normal", 
+                "segment_dateFile"
+            ], 
+            "level": "trace"
+        },
+        "classify": {
+            "appenders": [
+                "console",
+                "classify_normal", 
+                "classify_dateFile"
+            ], 
+            "level": "trace"
+        }
+    }
+}
