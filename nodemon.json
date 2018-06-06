@@ -2,6 +2,7 @@
     "ignore": [
         ".git",
         ".idea",
+        ".vscode",
         "node_modules",
         "logs"
     ],
