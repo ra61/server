@@ -20,7 +20,10 @@ app.get('/', function(req, res, next){
 // 跨域访问
 app.use(function (req,res,next) {
     
-    if(req.headers.origin === 'http://segment.net:8000' || req.headers.origin === 'http://classify.net'){
+    if(req.headers.origin === 'http://segment.net:8000' 
+    || req.headers.origin === 'http://classify.net'
+    || req.headers.origin === 'http://proof.net')
+    {
         res.header("Access-Control-Allow-Origin", req.headers.origin);
         res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
         res.header("Access-Control-Allow-Headers", "Content-Type");
@@ -47,6 +50,11 @@ const classify = require('./modules/classify');
 app.get('/classify/:batch_id', classify.validator, classify.main);
 
 app.get('/classify/rate/:batch_id', classify.rate);
+
+// 标注
+const tag = require('./modules/tag');
+app.get('/tag/:subproject_id/:batch_id', tag.validator, tag.main);
+// app.get('/tag/rate/:batch_id', tag.rate);
 
 // 错误处理中间件
 app.use(function(err, req, res, next) {

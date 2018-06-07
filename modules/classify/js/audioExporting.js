@@ -36,29 +36,19 @@ function audioExporting(exist_audio, totalSize, export_path, callback) {
                 }
             });
 
-            readStream.on('end', function (err) {
-
-                if(err){
-                    callback(err);
-                }
-
+            readStream.on('end', function () {
                 writeStream.end();
             });
 
-            writeStream.on('drain', function (err) {
+            readerStream.on('error', function(err){
+                callback(err);
+            });
 
-                if(err){
-                    callback(err);
-                }
-
+            writeStream.on('drain', function () {
                 readStream.resume();
             });
 
-            writeStream.on('close', function(err){
-
-                if(err){
-                    callback(err);
-                }
+            writeStream.on('close', function(){
 
                 counter++;
                 // rate = counter + '/' + total;
@@ -67,6 +57,10 @@ function audioExporting(exist_audio, totalSize, export_path, callback) {
                 rate = (exportedSize / totalSize * 100).toFixed(2) + '%';
 
                 callback(null, {exported_rate: rate,exported_counter: counter, total_audio: total});
+            });
+
+            writeStream.on('error', function(err){
+                callback(err);
             });
 
         }
