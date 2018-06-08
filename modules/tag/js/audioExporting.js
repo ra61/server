@@ -1,32 +1,13 @@
 const async = require('async');
 const fs = require('fs');
+const emitter = require('./saveRate');
 
-module.exports = function(audio_info_list, callback){
+module.exports = function(audio_info_list){
 
     let counter = 0;
-    let total = audio_info_list.length
+    let total = audio_info_list.length;
 
-    // 遍历存在的文件
-    for (let i = 0; i < audio_info_list.length; i++) {
-
-        let item = audio_info_list[i];
-
-        let key_value=[];
-
-        for(let key in item.text){
-            key_value.push(key + ":" + item.text[key]);
-        };
-
-        let write_content = key_value.join("\r\n");
-
-        fs.writeFile(item.write_file, write_content, (err) => {
-            if (err) {
-                console.log(err)
-            } else {
-                console.log('success');
-            }
-        });
-
+    async.each(audio_info_list, (item, callback) => {
 
         let read_audio = item.read_audio;
         let write_audio = item.write_audio;
@@ -49,7 +30,7 @@ module.exports = function(audio_info_list, callback){
                 writeStream.end();
             });
 
-            readStream.on('error', function(err){
+            readStream.on('error', function (err) {
                 callback(err);
             });
 
@@ -57,21 +38,24 @@ module.exports = function(audio_info_list, callback){
                 readStream.resume();
             });
 
-            writeStream.on('close', function(){
+            writeStream.on('close', function () {
 
                 counter++;
                 rate = counter + '/' + total;
 
                 // 计算导出进度
                 // rate = (exportedSize / totalSize * 100).toFixed(2) + '%';
-
-                callback(null, {exported_rate: rate,exported_counter: counter, total_audio: total});
+                emitter.emit('update', { exported_rate: rate, exported_counter: counter, total_audio: total })
             });
 
-            writeStream.on('error', function(err){
+            writeStream.on('error', function (err) {
                 callback(err);
             });
 
         }
-    }
+    }, (err) => {
+        console.log(err);
+    });
+
 }
+

@@ -40,7 +40,7 @@ function exporting(exist_audio, totalSize, export_path, callback) {
                 writeStream.end();
             });
 
-            readerStream.on('error', function(err){
+            readStream.on('error', function(err){
                 callback(err);
             });
 

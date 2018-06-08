@@ -54,11 +54,15 @@ app.get('/classify/rate/:batch_id', classify.rate);
 // 标注
 const tag = require('./modules/tag');
 app.get('/tag/:subproject_id/:batch_id', tag.validator, tag.main);
-// app.get('/tag/rate/:batch_id', tag.rate);
+// app.get('/tag/rate/:batch_id', tag.getRate);
 
 // 错误处理中间件
 app.use(function(err, req, res, next) {
     logger.error(err);
+});
+
+process.on('uncaughtException', function(){
+    logger.error('an error occurs');
 });
 
 module.exports = app;
