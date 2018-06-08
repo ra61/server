@@ -42,14 +42,14 @@ const segment = require('./modules/segment');
 app.get('/segment/:batch_id', segment.validator, segment.main);
 
 // 查询导出进度
-app.get('/segment/rate/:batch_id', segment.rate);
+app.get('/segment/rate/:batch_id', segment.getRate);
 
 // 挑音
 const classify = require('./modules/classify');
 
 app.get('/classify/:batch_id', classify.validator, classify.main);
 
-app.get('/classify/rate/:batch_id', classify.rate);
+app.get('/classify/rate/:batch_id', classify.getRate);
 
 // 标注
 const tag = require('./modules/tag');

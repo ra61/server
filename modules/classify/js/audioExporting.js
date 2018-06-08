@@ -1,13 +1,16 @@
 
 const fs = require('fs');
+const async = require('async');
+const emitter = require('./save');
 
-function audioExporting(exist_audio, totalSize, export_path, callback) {
+function audioExporting(exist_audio, totalSize, export_path, batch_id) {
 
     // 当前导出数量
     let counter = 0;
 
     // 需要导出的音频总数
     let total = exist_audio.length;
+    emitter.emit('update', batch_id, { total_audio: total });
 
     // 导出比率
     let rate = 0;
@@ -15,10 +18,7 @@ function audioExporting(exist_audio, totalSize, export_path, callback) {
     // 导出大小
     let exportedSize = 0;
 
-    // 遍历存在的文件
-    for (let i = 0; i < exist_audio.length; i++) {
-
-        let filePath = exist_audio[i];
+    async.each(exist_audio, (filePath, callback) => {
 
         let stat = fs.statSync(filePath);
 
@@ -40,7 +40,7 @@ function audioExporting(exist_audio, totalSize, export_path, callback) {
                 writeStream.end();
             });
 
-            readStream.on('error', function(err){
+            readStream.on('error', function (err) {
                 callback(err);
             });
 
@@ -48,7 +48,7 @@ function audioExporting(exist_audio, totalSize, export_path, callback) {
                 readStream.resume();
             });
 
-            writeStream.on('close', function(){
+            writeStream.on('close', function () {
 
                 counter++;
                 // rate = counter + '/' + total;
@@ -56,15 +56,18 @@ function audioExporting(exist_audio, totalSize, export_path, callback) {
                 // 计算导出进度
                 rate = (exportedSize / totalSize * 100).toFixed(2) + '%';
 
-                callback(null, {exported_rate: rate,exported_counter: counter, total_audio: total});
+                emitter.emit('update', batch_id, { exported_rate: rate, exported_counter: counter });
             });
 
-            writeStream.on('error', function(err){
+            writeStream.on('error', function (err) {
                 callback(err);
             });
 
         }
-    }
+    }, (err) => {
+        console.log(err);
+    });
+
 }
 
 module.exports = audioExporting;

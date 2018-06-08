@@ -14,7 +14,7 @@ module.exports = async function  (req, res, next) {
     // 根据ID查询音频信息
     let query_audio = await queryAudio(batch_id);
     // 筛选需要导出的音频信息
-    let export_audio_info = getExportAudio(query_audio);
+    let export_audio_info = getExportAudio(batch_id, query_audio);
 
     // 导出总量
     let export_totalSize = export_audio_info.totalSize;
@@ -28,13 +28,7 @@ module.exports = async function  (req, res, next) {
     let export_path = 'E:/corpus/classify/';
 
     // 导出音频
-    audioExporting(export_exist_audio, export_totalSize, export_path, function (err, exported_info) {
-        if(err){
-            next(err);
-        }
-        // 保存进度信息到数据库
-        // console.log(exported_info);
-    });
+    audioExporting(export_exist_audio, export_totalSize, export_path, batch_id);
 
     // 保存的批次Id
     let save_batch_id = 100;
