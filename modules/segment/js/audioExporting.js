@@ -1,7 +1,9 @@
 
 const fs = require('fs');
+const async = require('async');
+const emitter = require('./saveRate');
 
-function exporting(exist_audio, totalSize, export_path, callback) {
+function exporting(exist_audio, totalSize, export_path, batch_id) {
 
     // 当前导出数量
     let counter = 0;
@@ -9,16 +11,18 @@ function exporting(exist_audio, totalSize, export_path, callback) {
     // 需要导出的音频总数
     let total = exist_audio.length;
 
+    // 保存到数据库
+    emitter.emit('update', batch_id, { total_audio: total });
+
     // 导出比率
     let rate = 0;
 
     // 导出大小
     let exportedSize = 0;
 
-    // 遍历存在的文件
-    for (let i = 0; i < exist_audio.length; i++) {
+    async.each(exist_audio, (item, callback) => {
 
-        let filePath = exist_audio[i];
+        let filePath = item;
 
         let stat = fs.statSync(filePath);
 
@@ -40,7 +44,7 @@ function exporting(exist_audio, totalSize, export_path, callback) {
                 writeStream.end();
             });
 
-            readStream.on('error', function(err){
+            readStream.on('error', function (err) {
                 callback(err);
             });
 
@@ -48,23 +52,25 @@ function exporting(exist_audio, totalSize, export_path, callback) {
                 readStream.resume();
             });
 
-            writeStream.on('close', function(){
+            writeStream.on('close', function () {
 
                 counter++;
                 // rate = counter + '/' + total;
 
                 // 计算导出进度
                 rate = (exportedSize / totalSize * 100).toFixed(2) + '%';
-
-                callback(null, {exported_rate: rate,exported_counter: counter, total_audio: total});
+                emitter.emit('update', batch_id, { exported_rate: rate, exported_counter: counter });
             });
 
-            writeStream.on('error', function(err){
+            writeStream.on('error', function (err) {
                 callback(err);
             });
 
         }
-    }
+    }, (err) => {
+        console.log(err);
+    });
+
 }
 
 module.exports = exporting;

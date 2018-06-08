@@ -2,7 +2,6 @@
 const  getValidAudio = require('./getValidAudio');
 const  getAudioInfo = require('./getAudioInfo');
 const  audioExporting = require('./audioExporting');
-const  update = require('../db/update');
 
 module.exports = async function(req, res, next) {
 
@@ -17,11 +16,7 @@ module.exports = async function(req, res, next) {
     };
 
     // 获取导出音频的信息
-    let audio_info = await getAudioInfo(valid_audio);
-
-    // 保存切音文件路径
-    await update(batch_id, audio_info);
-
+    let audio_info = await getAudioInfo(batch_id, valid_audio);
     // 导出总量
     let totalSize = audio_info.totalSize;
     // 存在音频
@@ -35,15 +30,6 @@ module.exports = async function(req, res, next) {
     // 导出路径
     let export_path = 'E:/corpus/segment/';
     // 导出音频
-    audioExporting(exist_audio, totalSize, export_path, function (err, exported_info) {
-
-        if(err){
-            next(err);
-        }
-
-        // 更新导出进度到数据库
-        update(batch_id, exported_info);
-
-    });
+    audioExporting(exist_audio, totalSize, export_path, batch_id);
 
 };

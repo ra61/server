@@ -61,8 +61,8 @@ app.use(function(err, req, res, next) {
     logger.error(err);
 });
 
-process.on('uncaughtException', function(){
-    logger.error('an error occurs');
-});
+// process.on('uncaughtException', function(){
+//     logger.error('an error occurs');
+// });
 
 module.exports = app;
