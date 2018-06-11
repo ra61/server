@@ -20,7 +20,7 @@ app.get('/', function(req, res, next){
 // 跨域访问
 app.use(function (req,res,next) {
     
-    if(req.headers.origin === 'http://segment.net:8000' 
+    if(req.headers.origin === 'http://segment.net' 
     || req.headers.origin === 'http://classify.net'
     || req.headers.origin === 'http://proof.net')
     {
