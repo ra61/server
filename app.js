@@ -39,7 +39,7 @@ app.use(function (req,res,next) {
 const segment = require('./modules/segment');
 
 // 自动切音导出
-app.get('/segment/:batch_id', segment.validator, segment.main);
+app.get('/segment/task/:batch_id', segment.validator, segment.main);
 
 // 查询导出进度
 app.get('/segment/rate/:batch_id', segment.getRate);
@@ -47,14 +47,14 @@ app.get('/segment/rate/:batch_id', segment.getRate);
 // 挑音
 const classify = require('./modules/classify');
 
-app.get('/classify/:batch_id', classify.validator, classify.main);
+app.get('/classify/task/:batch_id', classify.validator, classify.main);
 
 app.get('/classify/rate/:batch_id', classify.getRate);
 
 // 标注
 const tag = require('./modules/tag');
-app.get('/tag/:subproject_id/:batch_id', tag.validator, tag.main);
-// app.get('/tag/rate/:batch_id', tag.getRate);
+app.get('/tag/task/:subproject_id/:batch_id', tag.validator, tag.main);
+app.get('/tag/rate/:batch_id', tag.getRate);
 
 // 错误处理中间件
 app.use(function(err, req, res, next) {

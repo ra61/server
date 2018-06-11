@@ -1,7 +1,4 @@
 
-const { getConnection, queryResult } = require('../../common');
-const { logger } = require('./log4js');
-const pool = require('./pool');
 const queryAudio = require('./queryAudio');
 const getExportAudio = require('./getExportAudio');
 const audioExporting = require('./audioExporting');
@@ -22,7 +19,8 @@ module.exports = async function  (req, res, next) {
     let export_exist_audio = export_audio_info.exist_audio;
 
     if(export_exist_audio.length === 0 || export_totalSize === 0){
-        next('不存在需要导出的音频');
+        let err = new Error('不存在需要导出的音频');
+        next(err);
     }
 
     let export_path = 'E:/corpus/classify/';

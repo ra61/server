@@ -12,7 +12,7 @@ module.exports = async function (audio_path_list) {
 
             ffmpeg.ffprobe(audio_path, async (err, metadata) => {
                 if (err) {
-                    logger.info(err);
+                    logger.error(err);
                 } else {
                     if (metadata) {
                         // 提取有效信息
@@ -35,7 +35,11 @@ module.exports = async function (audio_path_list) {
             });
 
         }, function (err, result) {
-            resolve(result);
+            if(err){
+                logger.error(err);
+            } else {
+                resolve(result);
+            }
         });
     });
 

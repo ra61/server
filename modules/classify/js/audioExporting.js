@@ -2,6 +2,7 @@
 const fs = require('fs');
 const async = require('async');
 const emitter = require('./save');
+const { logger } = require('./log4js');
 
 function audioExporting(exist_audio, totalSize, export_path, batch_id) {
 
@@ -65,7 +66,7 @@ function audioExporting(exist_audio, totalSize, export_path, batch_id) {
 
         }
     }, (err) => {
-        console.log(err);
+        logger.error(err);
     });
 
 }

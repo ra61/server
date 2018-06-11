@@ -11,7 +11,7 @@ module.exports = function (source_path, save_path) {
             .save(save_path)
             .on("error", (err) => {
                 reject(false);
-                logger.info(err);
+                logger.error(err);
             })
             .on("end", () => {
                 resolve(true);

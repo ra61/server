@@ -1,11 +1,13 @@
 const async = require('async');
 const fs = require('fs');
-const emitter = require('./saveRate');
+const emitter = require('./save');
+const { logger } = require('./log4js');
 
-module.exports = function(audio_info_list){
+module.exports = function (audio_info_list, batch_id){
 
     let counter = 0;
     let total = audio_info_list.length;
+    emitter.emit('update', batch_id, { total_audio: total })
 
     async.each(audio_info_list, (item, callback) => {
 
@@ -45,7 +47,7 @@ module.exports = function(audio_info_list){
 
                 // 计算导出进度
                 // rate = (exportedSize / totalSize * 100).toFixed(2) + '%';
-                emitter.emit('update', { exported_rate: rate, exported_counter: counter, total_audio: total })
+                emitter.emit('update', batch_id, { exported_rate: rate, exported_counter: counter })
             });
 
             writeStream.on('error', function (err) {
@@ -54,7 +56,7 @@ module.exports = function(audio_info_list){
 
         }
     }, (err) => {
-        console.log(err);
+        logger.error(err);
     });
 
 }

@@ -41,6 +41,19 @@
             "filename": "./logs/segment/dateFile/", 
             "pattern": "yyyyMMddhh.txt", 
             "alwaysIncludePattern": true
+        },
+        "tag_normal": {
+            "type": "file",
+            "filename": "./logs/tag/normal/file.log",
+            "maxLogSize": 102400,
+            "backups": 20,
+            "encoding": "utf-8"
+        },
+        "tag_dateFile": {
+            "type": "dateFile",
+            "filename": "./logs/tag/dateFile/",
+            "pattern": "yyyyMMddhh.txt",
+            "alwaysIncludePattern": true
         }
     }, 
     "categories": {
@@ -66,6 +79,14 @@
                 "classify_normal", 
                 "classify_dateFile"
             ], 
+            "level": "trace"
+        },
+        "tag": {
+            "appenders": [
+                "console",
+                "tag_normal",
+                "tag_dateFile"
+            ],
             "level": "trace"
         }
     }

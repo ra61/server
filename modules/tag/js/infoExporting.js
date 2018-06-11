@@ -1,5 +1,6 @@
-const async = require('async');
 const fs = require('fs');
+const async = require('async');
+const { logger } = require('./log4js');
 
 module.exports = function(audio_info_list){
 
@@ -17,12 +18,12 @@ module.exports = function(audio_info_list){
                 if (err) {
                     callback(err)
                 } else {
-                    console.log(item.path);
+                    logger.info(item.path + ' 信息写入成功');
                 }
             });
 
         }, (err) => {
-            console.log(err);
+            logger.error(err);
         });
 
 }

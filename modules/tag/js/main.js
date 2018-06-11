@@ -26,6 +26,6 @@ module.exports = async function  (req, res, next) {
     // 导出音频信息
     infoExporting(audioInfo);
     // 导出以您
-    audioExporting(audioInfo);
+    audioExporting(audioInfo, batch_id);
 
 }
